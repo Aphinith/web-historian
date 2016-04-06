@@ -11,8 +11,8 @@ exports.handleRequest = function (req, res) {
   var statusCode;
 
   if (req.method === 'GET') {
-   fs.readFile(__dirname + req.url, function (err, data) {
-    console.log('dirname:', __dirname);
+   fs.readFile(__dirname + '/public/index.html', function (err, data) {
+    console.log('dirname:', __dirname + '/public/index.html');
     console.log('err:', err);
     console.log('data:', data);
     if (err) {
