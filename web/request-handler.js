@@ -26,7 +26,6 @@ exports.handleRequest = function (req, res) {
       }
     })
 
-
   } else if (req.method === 'GET' && req.url === '/') {
     console.log('first test only in here');
     fs.readFile(__dirname + '/public/index.html', function (err, data) {
@@ -38,6 +37,20 @@ exports.handleRequest = function (req, res) {
     res.writeHead(200);
     res.end(data);
    })
+  } else if (req.method === 'POST') {
+    console.log('this is our post request in here!', req.method, req.url);
+    var archiveFolder = path.join(__dirname, '../archives');
+    console.log('archiveFolder:', archiveFolder);
+    fs.appendFile(archiveFolder + '/sites.txt', 'www.example.com' + '\n', function (err) {
+      if (err) {
+        throw err;
+      }
+      res.writeHead(302);
+      console.log('file was appended');
+    }) 
+    
+  } else if (req.method === 'Send') {
+    console.log('send got executed');
   }
 
 
