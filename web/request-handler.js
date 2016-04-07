@@ -22,10 +22,16 @@ exports.handleRequest = function (req, res) {
     res.end(data);
    })
 
-  } else {
-    fs.readdir(__dirname + '/archives/sites', function (err, path) {
-      console.log('this error is here:', err);
-      console.log('path:', path);
+
+  } else if (req.method === 'GET' && req.url !== '/') {
+    //get access to archives folder (outside of web folder)
+    var archiveFolder = path.join(__dirname, '../archives')
+    console.log('req.url:', req.url);
+
+    fs.readdir(archiveFolder + '/sites', function (err, data) {
+      // console.log('this error is here:', err);
+      // console.log('data', data);
+      // console.log('final dirname', archiveFolder + '/sites')
 
     if (err) {
       res.writeHead(404);
@@ -33,8 +39,20 @@ exports.handleRequest = function (req, res) {
       return;
     }
     res.writeHead(200);
-    res.end(data);
+    var url = req.url.replace(/^\//, "");
+    console.log('new url:', url);
+    for (var i = 0; i < data.length; i++) {
+      console.log(data[i])
+      if (data[i] === url) {
+        console.log('match found!', data[i]);
+        res.end(data[i]);
+      }
+    }
    })
+
+
+  } else if (req.method === 'POST') {
+    res.writeHead(404);
   };
 
 };
